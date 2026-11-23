@@ -15,11 +15,10 @@ Desenvolver um Sistema Analítico Interativo (CLI) em Python para analisar dados
 
 ```bash
 python -m pip install -r requirements.txt
-python baixar_base.py
 python main.py
 ```
 
-O arquivo completo `data/vgsales.csv` está incluído no repositório. O script `baixar_base.py` permite obter novamente a base, se necessário. A amostra `data/vgsales_amostra.csv` pode ser utilizada em testes.
+O arquivo `data/vgsales.csv`, obtido do Kaggle, está incluído no repositório e é lido diretamente pelo Pandas. A amostra `data/vgsales_amostra.csv` é utilizada nos testes.
 
 Para executar os testes:
 
@@ -52,7 +51,7 @@ O dataset `Video Game Sales` contém registros históricos de vendas de jogos, i
 
 ## Arquitetura e organização do sistema
 
-**Módulos / Classes Criadas:** A classe `AnalisadorDeDados`, localizada no arquivo `src/analisador.py`, é responsável por carregar e processar os dados de vendas de jogos eletrônicos utilizando a biblioteca Pandas. Ela organiza as operações de limpeza, filtragem, agrupamento e análise estatística dos dados, além de gerar gráficos com Matplotlib e Seaborn. O arquivo `main.py` contém o menu interativo com `while True` e tratamento de entradas inválidas por `try/except`, permitindo que o usuário escolha as análises diretamente pelo terminal. O arquivo `baixar_base.py` auxilia na obtenção do CSV.
+**Módulos / Classes Criadas:** A classe `AnalisadorDeDados`, localizada no arquivo `src/analisador.py`, é responsável por carregar e processar os dados de vendas de jogos eletrônicos utilizando a biblioteca Pandas. Ela organiza as operações de limpeza, filtragem, agrupamento e análise estatística dos dados, além de gerar gráficos com Matplotlib e Seaborn. Os dados e os contadores internos são mantidos em atributos de uso interno da classe, acessados pelo menu por meio de seus métodos. O arquivo `main.py` contém o menu interativo com `while True` e tratamento de entradas inválidas por `try/except`, permitindo que o usuário escolha as análises diretamente pelo terminal. A leitura do arquivo CSV ocorre diretamente na classe, sem dependência de serviços externos durante a execução.
 
 **Limpeza de Dados:** O sistema identifica e remove registros com valores ausentes nos campos necessários para a análise, utilizando o método `dropna()` da biblioteca Pandas. Também realiza conversões de tipos numéricos, trata registros inconsistentes e duplicados e prepara os dados para cálculos, agrupamentos e visualizações. A limpeza ocorre na classe `AnalisadorDeDados`.
 
@@ -79,7 +78,6 @@ projeto-games/
 │   └── analisador.py
 ├── tests/
 │   └── test_analisador.py
-├── baixar_base.py
 ├── main.py
 ├── requirements.txt
 ├── .gitignore

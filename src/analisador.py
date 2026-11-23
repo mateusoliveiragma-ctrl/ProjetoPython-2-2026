@@ -21,54 +21,54 @@ class AnalisadorDeDados:
         caminho = Path(caminho_csv) if caminho_csv else (
             Path(__file__).resolve().parents[1] / "data" / "vgsales.csv"
         )
-        self.df = pd.read_csv(caminho)
-        faltantes = set(self.COLUNAS) - set(self.df.columns)
+        self._df = pd.read_csv(caminho)
+        faltantes = set(self.COLUNAS) - set(self._df.columns)
         if faltantes:
             raise ValueError(f"Colunas ausentes: {', '.join(sorted(faltantes))}")
-        self.total_original = len(self.df)
+        self._total_original = len(self._df)
         for coluna in ("Year", "Global_Sales", "NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"):
-            self.df[coluna] = pd.to_numeric(self.df[coluna], errors="coerce")
+            self._df[coluna] = pd.to_numeric(self._df[coluna], errors="coerce")
         for coluna in ("Genre", "Platform", "Name"):
-            self.df[coluna] = self.df[coluna].astype("string").str.strip().replace("", pd.NA)
-        self.df = self.df.dropna(subset=list(self.COLUNAS))
-        self.df = self.df.loc[(self.df["Global_Sales"] >= 0) &
-                             self.df["Year"].between(1970, 2030)]
-        self.df = self.df.drop_duplicates().reset_index(drop=True)
-        if self.df.empty:
+            self._df[coluna] = self._df[coluna].astype("string").str.strip().replace("", pd.NA)
+        self._df = self._df.dropna(subset=list(self.COLUNAS))
+        self._df = self._df.loc[(self._df["Global_Sales"] >= 0) &
+                             self._df["Year"].between(1970, 2030)]
+        self._df = self._df.drop_duplicates().reset_index(drop=True)
+        if self._df.empty:
             raise ValueError("Não há registros válidos após a limpeza.")
-        self.df["Genero_PT"] = self.df["Genre"].map(self.TRADUCOES_GENEROS).fillna(self.df["Genre"])
+        self._df["Genero_PT"] = self._df["Genre"].map(self.TRADUCOES_GENEROS).fillna(self._df["Genre"])
         sns.set_theme(style="whitegrid")
 
     def resumo_geral(self):
         return {
-            "originais": self.total_original,
-            "validos": len(self.df),
-            "removidos": self.total_original - len(self.df),
-            "vendas_totais": self.df["Global_Sales"].sum(),
-            "vendas_medias": self.df["Global_Sales"].mean(),
-            "por_genero": self.df.groupby("Genero_PT").size().sort_values(ascending=False),
+            "originais": self._total_original,
+            "validos": len(self._df),
+            "removidos": self._total_original - len(self._df),
+            "vendas_totais": self._df["Global_Sales"].sum(),
+            "vendas_medias": self._df["Global_Sales"].mean(),
+            "por_genero": self._df.groupby("Genero_PT").size().sort_values(ascending=False),
         }
 
     def vendas_por_genero(self):
-        return self.df.groupby("Genero_PT")["Global_Sales"].sum().sort_values(ascending=False)
+        return self._df.groupby("Genero_PT")["Global_Sales"].sum().sort_values(ascending=False)
 
     def vendas_por_plataforma(self):
-        return self.df.groupby("Platform")["Global_Sales"].sum().sort_values(ascending=False)
+        return self._df.groupby("Platform")["Global_Sales"].sum().sort_values(ascending=False)
 
     def generos(self):
-        return sorted(self.df["Genero_PT"].unique().tolist())
+        return sorted(self._df["Genero_PT"].unique().tolist())
 
     def filtrar_genero(self, genero):
-        filtrados = self.df.loc[
-            ((self.df["Genero_PT"].str.casefold() == genero.strip().casefold()) |
-             (self.df["Genre"].str.casefold() == genero.strip().casefold()))
+        filtrados = self._df.loc[
+            ((self._df["Genero_PT"].str.casefold() == genero.strip().casefold()) |
+             (self._df["Genre"].str.casefold() == genero.strip().casefold()))
         ]
         if filtrados.empty:
             raise ValueError("Gênero não encontrado. Disponíveis: " + ", ".join(self.generos()))
         return self._tabela_em_portugues(filtrados)
 
     def top_jogos(self, quantidade=10):
-        return self._tabela_em_portugues(self.df.nlargest(quantidade, "Global_Sales"))
+        return self._tabela_em_portugues(self._df.nlargest(quantidade, "Global_Sales"))
 
     @staticmethod
     def _tabela_em_portugues(dados):
@@ -99,7 +99,7 @@ class AnalisadorDeDados:
         return self._finalizar(arquivo)
 
     def grafico_histograma(self, arquivo=None):
-        dados = self.df.loc[self.df["Global_Sales"] >= 0, "Global_Sales"]
+        dados = self._df.loc[self._df["Global_Sales"] >= 0, "Global_Sales"]
         plt.figure(figsize=(9, 5))
         sns.histplot(dados, bins=12, color="#16a085")
         plt.title("Distribuição das vendas mundiais")
@@ -109,9 +109,9 @@ class AnalisadorDeDados:
 
     def grafico_dispersao(self, arquivo=None):
         """Compara as vendas de cada jogo na América do Norte e na Europa."""
-        dados = self.df.loc[
-            self.df["NA_Sales"].notna() & self.df["EU_Sales"].notna()
-            & (self.df["NA_Sales"] >= 0) & (self.df["EU_Sales"] >= 0)
+        dados = self._df.loc[
+            self._df["NA_Sales"].notna() & self._df["EU_Sales"].notna()
+            & (self._df["NA_Sales"] >= 0) & (self._df["EU_Sales"] >= 0)
         ]
         plt.figure(figsize=(10, 5))
         sns.scatterplot(data=dados, x="NA_Sales", y="EU_Sales", alpha=0.55, s=35)
@@ -121,18 +121,18 @@ class AnalisadorDeDados:
         return self._finalizar(arquivo)
 
     def vendas_por_ano(self):
-        return self.df.groupby(self.df["Year"].astype(int))["Global_Sales"].sum().sort_index()
+        return self._df.groupby(self._df["Year"].astype(int))["Global_Sales"].sum().sort_index()
 
     def vendas_por_regiao(self):
         colunas = {"NA_Sales": "América do Norte", "EU_Sales": "Europa",
                    "JP_Sales": "Japão", "Other_Sales": "Outras regiões"}
-        return self.df[list(colunas)].sum().rename(index=colunas).sort_values(ascending=False)
+        return self._df[list(colunas)].sum().rename(index=colunas).sort_values(ascending=False)
 
     def buscar_jogo(self, termo):
         termo = termo.strip()
         if not termo:
             raise ValueError("Digite o nome ou parte do nome de um jogo.")
-        dados = self.df.loc[self.df["Name"].str.contains(termo, case=False, regex=False, na=False)]
+        dados = self._df.loc[self._df["Name"].str.contains(termo, case=False, regex=False, na=False)]
         return self._tabela_em_portugues(dados.nlargest(20, "Global_Sales"))
 
     def grafico_linha(self, arquivo=None):

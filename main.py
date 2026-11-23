@@ -1,21 +1,16 @@
 """Menu interativo para análise de vendas de games."""
 from pathlib import Path
 from src.analisador import AnalisadorDeDados
-from baixar_base import baixar_base
 
 
 def main():
     try:
-        try:
-            caminho_csv = baixar_base()
-        except (OSError, ValueError) as erro_download:
-            print(f"Falha ao baixar a base completa: {erro_download}")
-            print("Usando AMOSTRA de 50 registros. Para a base completa, salve vgsales.csv em data/.")
-            caminho_csv = Path(__file__).resolve().parent / "data" / "vgsales_amostra.csv"
+        caminho_csv = Path(__file__).resolve().parent / "data" / "vgsales.csv"
         analise = AnalisadorDeDados(caminho_csv)
-        print(f"Base carregada: {analise.total_original} registros.")
+        print(f"Base carregada: {analise.resumo_geral()['originais']} registros.")
     except (FileNotFoundError, OSError, ValueError) as erro:
         print(f"Erro ao carregar CSV: {erro}")
+        print("Verifique se o arquivo data/vgsales.csv está na pasta do projeto.")
         return
 
     while True:
@@ -29,7 +24,7 @@ def main():
         print("5 - Top 10 jogos mais vendidos")
         print("6 - Gráfico de barras por gênero")
         print("7 - Histograma de vendas")
-        print("8 - Gráfico de dispersão por ano")
+        print("8 - Gráfico de dispersão: América do Norte e Europa")
         print("9 - Vendas por ano")
         print("10 - Vendas por região")
         print("11 - Buscar jogo pelo nome")

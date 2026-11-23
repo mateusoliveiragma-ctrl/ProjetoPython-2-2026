@@ -1,109 +1,102 @@
-
-# Projeto: Análise de Dados com Python
+# Projeto Final — Análise de Vendas de Games
 
 **Disciplina:** Linguagem de Programação em Python (2026.2)  
 **Professor:** Ruben Prado  
-**Instituição:** Faculdade Senac-DF de Tecnologia e Inovação 
+**Instituição:** Faculdade Senac-DF de Tecnologia e Inovação  
+**Turma informada:** ADS-B
 
----
+## Objetivo do projeto
 
-## Objetivo do Projeto
-Este projeto consolida os conhecimentos do semestre. As equipes atuarão como Engenheiros de Dados para desenvolver um **Sistema Analítico Interativo (CLI - Command Line Interface)**. 
+Desenvolver um Sistema Analítico Interativo (CLI) em Python para analisar dados reais de vendas de jogos eletrônicos, utilizando Pandas para o processamento, Orientação a Objetos para organizar a lógica e Matplotlib/Seaborn para gerar gráficos.
 
-O sistema deve ler uma base de dados real (escolhida no Kaggle), processá-la usando a biblioteca **Pandas**, estruturar a inteligência de negócios através da **Orientação a Objetos (Classes)** e gerar *insights* visuais utilizando **Matplotlib/Seaborn**.
+## Instalação e execução
 
----
-
-## Estrutura do Repositório (Como Organizar seu Código)
-O projeto inicial que vocês clonaram já possui a arquitetura exigida para a entrega. **Não alterem essa estrutura básica**, apenas completem o código!
-
-```text
-projeto-integrador-python/
-│
-├── data/                   # Coloque aqui o arquivo .csv baixado do Kaggle.
-│   └── .gitkeep            # Mantém a pasta visível no GitHub. Não apague.
-│
-├── src/                    # Pasta raiz do núcleo do sistema (Orientação a Objetos).
-│   ├── __init__.py         # Indica ao Python que a pasta "src" é um módulo importável.
-│   └── analisador.py       # Aqui vocês devem construir a Classe AnalisadorDeDados.
-│                           # Toda a lógica de limpeza (Pandas) e gráficos fica aqui!
-│
-├── main.py                 # O Ponto de Entrada. É aqui que o laço 'while' do Menu Interativo roda.
-├── requirements.txt        # Lista de bibliotecas externas obrigatórias do projeto.
-├── .gitignore              # Configurado para não subir lixo de compilação (ex: __pycache__).
-└── README.md               # Este arquivo. Vocês devem preencher o formulário no final!
-
-```
-
----
-
-## Requisitos Técnicos Obrigatórios (O que será avaliado)
-
-1. **O Menu Interativo (`main.py`):**
-O sistema deve rodar em um loop contínuo (`while True`). O menu numérico deve ser protegido com bloco `try/except` capturando `ValueError`. O programa não pode "dar tela de erro" se o usuário digitar uma letra.
-2. **Motor de Dados (`analisador.py`):**
-Uso exclusivo do Pandas para ler o `.csv`. A equipe deve aplicar pelo menos uma técnica de limpeza (`dropna()` ou `fillna()`) no construtor da classe. Antes de gerar um gráfico, a equipe deve utilizar comandos como `groupby` ou filtros booleanos.
-3. **Arquitetura (Orientação a Objetos):**
-A manipulação de dados e a geração de imagens **não podem** ser feitas soltas no `main.py`. A lógica de negócios deve ser inteiramente modelada como atributos e métodos (Ex: `self.df`) dentro da Classe no arquivo `analisador.py`.
-4. **Inteligência Visual (Dashboards):**
-O menu deve acionar métodos que gerem, no mínimo, **3 gráficos diferentes** (ex: Linha, Barras, Histograma, Dispersão). **Regra de Ouro:** Nenhum gráfico pode ser plotado sem título (`plt.title`) e nomes nos eixos (`plt.xlabel` e `plt.ylabel`).
-
----
-
-## Como Entregar (Fluxo Git/GitHub)
-
-Para simular o mercado de trabalho real de desenvolvimento de software, a entrega não será um arquivo compactado `.zip`, mas sim um **Pull Request (PR)** oficializado nesta plataforma.
-
-1. Faça o **Fork** (ou Clone) deste repositório para a conta de um dos integrantes ou acesse o repositório gerado pela atividade.
-2. É proibido programar diretamente na branch de produção. Crie a branch da equipe: `git checkout -b dev-nome-da-equipe`.
-3. Escrevam o código nos arquivos disponibilizados fazendo `commits` frequentes. Dividam o trabalho!
-4. Terminada a implementação, subam a branch para o servidor: `git push origin dev-nome-da-equipe`.
-5. Abram um **Pull Request (PR)** apontando da branch de vocês para a `main`. O professor corrigirá e fará o merge deste PR.
-
----
-
-## Instalação e Execução Local
-
-Para testar o projeto no laboratório ou no computador de casa, abra o terminal e execute:
+É necessário ter o Python instalado. No terminal, dentro da pasta do projeto:
 
 ```bash
-# 1. Instalar todas as dependências do projeto (Pandas, Matplotlib, Seaborn)
-pip install -r requirements.txt
-
-# 2. Iniciar o Menu Interativo
+python -m pip install -r requirements.txt
+python baixar_base.py
 python main.py
+```
 
+O arquivo `data/vgsales.csv` (base completa) será obtido pela rotina de download. Se a rede impedir o download, baixe `vgsales.csv` na página do Kaggle indicada abaixo e salve-o em `data/`. A amostra `data/vgsales_amostra.csv` é destinada a testes e execução alternativa quando o download falhar.
+
+Para executar os testes:
+
+```bash
+python -m unittest discover -s tests -v
 ```
 
 ---
 
-# 📝 Formulário Oficial de Entrega (Preenchimento Obrigatório)
+# Formulário Oficial de Entrega
 
-*(Atenção Equipe: Editem este arquivo README.md e preencham os campos abaixo antes de abrir o Pull Request).*
+## 👥 Integrantes da Equipe
 
-### 👥 Integrantes da Equipe
+| Integrante | Nome | Turma informada | Matrícula individual |
+|---|---|---|---|
+| 1 | Mateus Oliveira | ADS-B | **PREENCHER** |
+| 2 | Ronald Alvez | ADS-B | **PREENCHER** |
+| 3 | Airton Dias | ADS-B | **PREENCHER** |
+| 4 | João Gabriel Ribeiro | ADS-B | **PREENCHER** |
+| 5 | Ricardo Fernandes | ADS-B | **PREENCHER** |
+| 6 | Rodrigo Fernades | ADS-B | **PREENCHER** |
 
-* [Nome do Integrante 1] - [Matrícula]
-* [Nome do Integrante 2] - [Matrícula]
-* [Nome do Integrante 3] - [Matrícula]
+> **Atenção:** ADS-B foi informado como matrícula, mas parece identificar a turma. Confirmar as matrículas acadêmicas individuais antes do Pull Request. Os nomes foram mantidos exatamente como informados pela equipe.
 
-### 🗂️ Sobre o Dataset Escolhido
+## 🗂️ Sobre o Dataset Escolhido
 
-* **Tema Geral:** (Ex: Vendas de E-commerce, Estatísticas de E-sports, Saúde Pública, etc.)
-* **Fonte de Dados (URL):** (Cole o link do Kaggle aqui)
-* **Motivação:** (Explique em duas frases o que esses dados representam e qual problema ou curiosidade queriam analisar).
+**Tema Geral:** Análise de Vendas de Jogos Eletrônicos.
 
-### 🏗️ Arquitetura e Estruturação (O que vocês codaram)
+**Fonte de Dados (URL):** https://www.kaggle.com/datasets/gregorut/videogamesales
 
-* **Módulos / Classes Criadas:** (Explique a responsabilidade da classe criada em `analisador.py`).
-* **Limpeza de Dados:** (Descreva se a base tinha muitos dados nulos e qual técnica foi utilizada para limpá-la - ex: `.dropna()`).
+**Motivação:** O projeto tem como objetivo analisar dados de vendas de jogos eletrônicos, identificando os gêneros, plataformas e títulos de maior sucesso comercial. A análise também permite comparar o desempenho dos jogos em diferentes regiões do mundo e observar tendências ao longo dos anos.
 
-### 📊 Gráficos Desenvolvidos
+O dataset `Video Game Sales` contém registros históricos de vendas de jogos, incluindo nome, plataforma, gênero, ano, editora e vendas por região. Os valores de vendas são apresentados em milhões de unidades.
 
-Descreva detalhadamente as 3 visualizações construídas:
+## 🏗️ Arquitetura e Estruturação (O que vocês codaram)
 
-1. **Visão 1:** (Ex: Gráfico de linha comparando a quantidade de chuva entre Jan e Fev).
-2. **Visão 2:** (Ex: Gráfico de barras indicando os 5 produtos mais rentáveis da loja).
-3. **Visão 3:** (Ex: Histograma validando a distribuição de idades na faixa de risco).
+**Módulos / Classes Criadas:** A classe `AnalisadorDeDados`, localizada no arquivo `src/analisador.py`, é responsável por carregar e processar os dados de vendas de jogos eletrônicos utilizando a biblioteca Pandas. Ela organiza as operações de limpeza, filtragem, agrupamento e análise estatística dos dados, além de gerar gráficos com Matplotlib e Seaborn. O arquivo `main.py` contém o menu interativo com `while True` e tratamento de entradas inválidas por `try/except`, permitindo que o usuário escolha as análises diretamente pelo terminal. O arquivo `baixar_base.py` auxilia na obtenção do CSV.
 
+**Limpeza de Dados:** O sistema identifica e remove registros com valores ausentes nos campos necessários para a análise, utilizando o método `dropna()` da biblioteca Pandas. Também realiza conversões de tipos numéricos, trata registros inconsistentes e duplicados e prepara os dados para cálculos, agrupamentos e visualizações. A limpeza ocorre na classe `AnalisadorDeDados`.
+
+## 📊 Gráficos Desenvolvidos
+
+1. **Visão 1 — Gráfico de barras: vendas por gênero.** Apresenta o total de vendas globais agrupadas por gênero, como Ação, Esportes, RPG e Corrida. Permite identificar quais categorias de jogos tiveram maior sucesso comercial. O eixo horizontal apresenta os gêneros e o eixo vertical mostra as vendas globais em milhões de unidades.
+
+2. **Visão 2 — Histograma: distribuição das vendas globais.** Mostra a frequência dos jogos em diferentes faixas de vendas globais. Ajuda a identificar se a maioria dos títulos apresenta vendas baixas, médias ou elevadas. O eixo horizontal representa as vendas globais e o vertical indica a quantidade de jogos.
+
+3. **Visão 3 — Gráfico de dispersão: vendas na América do Norte e Europa.** Compara as vendas dos jogos nas duas regiões. Cada ponto representa um jogo, permitindo observar possíveis relações entre seu desempenho comercial nesses mercados. O eixo horizontal representa as vendas na América do Norte e o vertical as vendas na Europa, ambos em milhões de unidades.
+
+**Visualizações adicionais:** gráfico de linha das vendas globais por ano de lançamento e gráfico de barras das vendas por região. Todos os gráficos possuem títulos e identificação dos eixos em português.
+
+## Estrutura do projeto
+
+```text
+projeto-games/
+├── data/
+│   ├── .gitkeep
+│   ├── vgsales_amostra.csv
+│   └── vgsales.csv             # Obtido pelo script ou pelo Kaggle
+├── src/
+│   ├── __init__.py
+│   └── analisador.py
+├── tests/
+│   └── test_analisador.py
+├── baixar_base.py
+├── main.py
+├── requirements.txt
+├── .gitignore
+└── README.md
 ```
+
+## Entrega por Pull Request
+
+A entrega oficial deve ser realizada por **Pull Request**, não pelo arquivo ZIP. Utilizar como base o repositório do professor: https://github.com/rubaun/ProjetoPython-2-2026.
+
+1. Fazer um fork do repositório.
+2. Criar uma branch com o padrão `dev-nome-da-equipe`.
+3. Adicionar os arquivos do projeto, fazer commits e enviar a branch ao fork.
+4. Abrir o Pull Request da branch da equipe para a branch `main` do repositório do professor.
+5. Antes de enviar, preencher as seis matrículas individuais e conferir se `data/vgsales.csv` está presente.
+
